@@ -7,10 +7,30 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
         Main mainApp = new Main();
-        Product productMilk = new Product();
-        System.out.println(productMilk);
-        Product productCoffe = new Product("Juan valdez", "cafe premium", "cafe", "Cafes", 20000, "www.google.com.co" );
-        mainApp.runMenu();
+
+        Product productCoffe = new Product("Juan valdez", "cafe premium", "cafe", "Cafes", 20000, "www.google.com.co", 5 );
+        //mainApp.runMenu();
+        System.out.println(productCoffe.getProductName());
+        System.out.println(productCoffe.setProductName("Juan Valdez Volcan"));
+        System.out.println(productCoffe.getDescription());
+        System.out.println(productCoffe.setDescription("Cafe tonalida fuerte"));
+        System.out.println(productCoffe.getCategory());
+        System.out.println(productCoffe.setCategory("Cafe colombiano"));
+        System.out.println(productCoffe.getLabel());
+        System.out.println(productCoffe.setLabel("Cafe premium"));
+        System.out.println(productCoffe.getPrice());
+        System.out.println(productCoffe.setPrice(25000));
+        System.out.println(productCoffe.getUrlPhoto());
+        System.out.println(productCoffe.setUrlPhoto("https://www.juanvaldezcafestore.com/wp-content/uploads/2021/06/Cold-Brew-HD.jpg"));
+        System.out.println(productCoffe.getStock());
+        System.out.println(productCoffe.setStock(10));
+        System.out.println(productCoffe.stockProduct(15));
+        productCoffe.higherPriceValidation(24000);
+        productCoffe.validatioPriceLessThanEqual(27000);
+        productCoffe.productContainsTextParameter("volcan");
+        System.out.println(productCoffe.toString());
+
+
 
     }
     private void handleUserChoice(int choice){
