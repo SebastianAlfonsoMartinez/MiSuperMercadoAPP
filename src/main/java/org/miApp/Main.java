@@ -1,6 +1,7 @@
 package org.miApp;
 
 import org.miApp.product.Product;
+import org.miApp.product.ProductArray;
 
 import java.util.Scanner;
 
@@ -9,8 +10,8 @@ public class Main {
         Main mainApp = new Main();
 
         Product productCoffe = new Product("Juan valdez", "cafe premium", "cafe", "Cafes", 20000, "www.google.com.co", 5 );
-        //mainApp.runMenu();
-        System.out.println(productCoffe.getProductName());
+//        mainApp.runMenu();
+       /* System.out.println(productCoffe.getProductName());
         System.out.println(productCoffe.setProductName("Juan Valdez Volcan"));
         System.out.println(productCoffe.getDescription());
         System.out.println(productCoffe.setDescription("Cafe tonalida fuerte"));
@@ -29,6 +30,12 @@ public class Main {
         productCoffe.validatioPriceLessThanEqual(27000);
         productCoffe.productContainsTextParameter("volcan");
         System.out.println(productCoffe.toString());
+        Product productMilk = new Product("Alqueria", "Leche entera", "Lacteos", "Leche", 4500, "www.google.com", 10);
+        System.out.println(productMilk.getPrice());*/
+//        Product chocolatina = new Product("Jet", "Chocolatina", "Dulces", "Chocolatina", 2000, "askhjfdajsfh", 50);
+//        chocolatina.higherPriceValidation(2500);
+        Product arrayProductos = new Product(new String[]{"leche", "pan", "huevos", "harina", "higado"});
+        arrayProductos.searchProductByLetter("h");
 
 
 

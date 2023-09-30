@@ -9,6 +9,8 @@ public class Product {
     private double price;
     private String urlPhoto;
     private long stock;
+    private String[] array;
+
 
 
     //Contructores
@@ -23,6 +25,9 @@ public class Product {
         this.price = price;
         this.urlPhoto = urlPhoto;
         this.stock = stock;
+    }
+    public Product(String[] array){
+        this.array = array;
     }
     //Metodos
     // getters and setters
@@ -75,6 +80,16 @@ public class Product {
         this.stock = stock;
         return this.stock;
     }
+    public String[] getArray() {
+        for (String arrayProduct: this.array) {
+            System.out.println(arrayProduct);
+        }
+        return this.array;
+    }
+    public String[] setArray(String[] array) {
+        this.array = array;
+        return this.array;
+    }
     //Metodos con funcionalidades
 
     //Validacion si hay productos en inventario de los solicitados.
@@ -88,7 +103,9 @@ public class Product {
     //Determinar si el precio de un producto es mayor a un valor pasado por parametro.
     public void higherPriceValidation(double price){
         if(this.price > price){
-            System.out.println("Precio del producto es mayor al valor pasado por parametro");
+            System.out.println("Precio del producto es mayor al valor pasado por parametro" + this.price);
+        }else{
+            System.out.println("El precio ingresado es mayor al valor del producto" + price);
         }
 
     }
@@ -104,6 +121,15 @@ public class Product {
     public void productContainsTextParameter (String productName){
         this.productName.indexOf(productName);
         System.out.println("El producto contiene la palabra ingresada por parametro" + this.productName);
+    }
+
+    //Implementa una metodo para mostrar los productos que comienzan por una letra pasada por parámetro.
+    public void searchProductByLetter (String l){
+        for (String product: this.array) {
+            if (product.startsWith(l)) {
+                System.out.println("Se encontraron productos con la letra ingresada: " + l + "\n los cuales son: " + product + " ");
+            }
+        }
     }
 
 
