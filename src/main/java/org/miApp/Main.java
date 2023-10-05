@@ -9,9 +9,9 @@ public class Main {
     public static void main(String[] args) {
         Main mainApp = new Main();
 
-        Product productCoffe = new Product("Juan valdez", "cafe premium", "cafe", "Cafes", 20000, "www.google.com.co", 5 );
+/*        Product productCoffe = new Product("Juan valdez", "cafe premium", "cafe", "Cafes", 20000, "www.google.com.co", 5 );
 //        mainApp.runMenu();
-       /* System.out.println(productCoffe.getProductName());
+        System.out.println(productCoffe.getProductName());
         System.out.println(productCoffe.setProductName("Juan Valdez Volcan"));
         System.out.println(productCoffe.getDescription());
         System.out.println(productCoffe.setDescription("Cafe tonalida fuerte"));
@@ -31,11 +31,27 @@ public class Main {
         productCoffe.productContainsTextParameter("volcan");
         System.out.println(productCoffe.toString());
         Product productMilk = new Product("Alqueria", "Leche entera", "Lacteos", "Leche", 4500, "www.google.com", 10);
-        System.out.println(productMilk.getPrice());*/
-//        Product chocolatina = new Product("Jet", "Chocolatina", "Dulces", "Chocolatina", 2000, "askhjfdajsfh", 50);
-//        chocolatina.higherPriceValidation(2500);
-        Product arrayProductos = new Product(new String[]{"leche", "pan", "huevos", "harina", "higado"});
-        arrayProductos.searchProductByLetter("h");
+        System.out.println(productMilk.getPrice());
+        Product chocolatina = new Product("Jet", "Chocolatina", "Dulces", "Chocolatina", 2000, "askhjfdajsfh", 50);
+        chocolatina.higherPriceValidation(2500);*/
+//        ProductArray arrayProductos = new ProductArray(new String[]{"leche", "pan", "huevos", "harina", "Higado", "Agua", "COCO", "durazno", "chocolate", "Wisky" });
+//        arrayProductos.toString();
+//        arrayProductos.ordenarArrayAlfabeticamente(arrayProductos.getArray());
+/*        Product caldo = new Product("Caldo costilla", "caldo con papa y costilla", "Sopas", "Caldo", 6000, "www.caldo.com", 5);
+        System.out.println(caldo);
+
+
+        caldo.setPrice(8000);
+        System.out.println("el precio del caldo es: " + caldo.getPrice());*/
+        Product celular = new Product("Celular s20", "celular andoid", "smartPhone", "telefono", 900000, "www.fkldjltfsed.com", 20);
+//        System.out.println(celular);
+//        celular.higherPriceValidation(950000);
+        celular.productContainsTextParameter("c");
+
+
+
+
+
 
 
 

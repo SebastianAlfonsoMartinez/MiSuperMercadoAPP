@@ -1,5 +1,7 @@
 package org.miApp.product;
 
+import java.util.Arrays;
+
 public class Product {
     //Atributos
     private String productName;
@@ -9,7 +11,7 @@ public class Product {
     private double price;
     private String urlPhoto;
     private long stock;
-    private String[] array;
+
 
 
 
@@ -26,9 +28,7 @@ public class Product {
         this.urlPhoto = urlPhoto;
         this.stock = stock;
     }
-    public Product(String[] array){
-        this.array = array;
-    }
+
     //Metodos
     // getters and setters
     public String getProductName(){
@@ -80,16 +80,7 @@ public class Product {
         this.stock = stock;
         return this.stock;
     }
-    public String[] getArray() {
-        for (String arrayProduct: this.array) {
-            System.out.println(arrayProduct);
-        }
-        return this.array;
-    }
-    public String[] setArray(String[] array) {
-        this.array = array;
-        return this.array;
-    }
+
     //Metodos con funcionalidades
 
     //Validacion si hay productos en inventario de los solicitados.
@@ -119,18 +110,18 @@ public class Product {
 
     //Determinar si el nombre del producto contiene una palabra pasada por parametro.
     public void productContainsTextParameter (String productName){
-        this.productName.indexOf(productName);
-        System.out.println("El producto contiene la palabra ingresada por parametro" + this.productName);
+        String palabra = this.productName.toLowerCase();
+        if (palabra.contains(productName.toLowerCase())) {
+            System.out.println("El producto contiene la palabra " + productName + " Producto:" + this.productName);
+        }else {
+            System.out.println("No se encontro producto con la palabra " + productName);
+        }
     }
 
     //Implementa una metodo para mostrar los productos que comienzan por una letra pasada por parámetro.
-    public void searchProductByLetter (String l){
-        for (String product: this.array) {
-            if (product.startsWith(l)) {
-                System.out.println("Se encontraron productos con la letra ingresada: " + l + "\n los cuales son: " + product + " ");
-            }
-        }
-    }
+
+
+
 
 
 
