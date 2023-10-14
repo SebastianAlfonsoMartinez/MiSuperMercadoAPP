@@ -1,7 +1,8 @@
 package org.miApp;
 
+import org.miApp.bill.Bill;
+import org.miApp.customer.Customer;
 import org.miApp.product.Product;
-import org.miApp.product.ProductArray;
 
 import java.util.Scanner;
 
@@ -29,24 +30,35 @@ public class Main {
         productCoffe.higherPriceValidation(24000);
         productCoffe.validatioPriceLessThanEqual(27000);
         productCoffe.productContainsTextParameter("volcan");
-        System.out.println(productCoffe.toString());
+        System.out.println(productCoffe.toString());*/
         Product productMilk = new Product("Alqueria", "Leche entera", "Lacteos", "Leche", 4500, "www.google.com", 10);
-        System.out.println(productMilk.getPrice());
         Product chocolatina = new Product("Jet", "Chocolatina", "Dulces", "Chocolatina", 2000, "askhjfdajsfh", 50);
-        chocolatina.higherPriceValidation(2500);*/
-//        ProductArray arrayProductos = new ProductArray(new String[]{"leche", "pan", "huevos", "harina", "Higado", "Agua", "COCO", "durazno", "chocolate", "Wisky" });
-//        arrayProductos.toString();
-//        arrayProductos.ordenarArrayAlfabeticamente(arrayProductos.getArray());
-/*        Product caldo = new Product("Caldo costilla", "caldo con papa y costilla", "Sopas", "Caldo", 6000, "www.caldo.com", 5);
-        System.out.println(caldo);
+        Product zanahoria = new Product("Zanahoria", "Vegetal naranja", "Vegetales", "Tuberculo", 500.0, "www.zanahoria.com", 100);
+        Product pasta = new Product("Pasta Doria", "Pasta larga Doria", "pastas", "Pasta", 4000.0, "www.pastadoria.com", 20);
+        Product caldo = new Product("Caldo costilla", "caldo con papa y costilla", "Sopas", "Caldo", 6000, "www.caldo.com", 5);
+
 
 
         caldo.setPrice(8000);
-        System.out.println("el precio del caldo es: " + caldo.getPrice());*/
+
         Product celular = new Product("Celular s20", "celular andoid", "smartPhone", "telefono", 900000, "www.fkldjltfsed.com", 20);
-//        System.out.println(celular);
-//        celular.higherPriceValidation(950000);
-        celular.productContainsTextParameter("c");
+        Customer customer = new Customer("Sebastian");
+        Bill bill1 = new Bill(customer);
+        bill1.addProductList(celular);
+        bill1.addProductList(chocolatina);
+        bill1.addProductList(productMilk);
+        bill1.addProductList(pasta);
+        bill1.addProductList(zanahoria);
+        System.out.println(bill1.getIdBill());
+        bill1.searchProductByLetter('j');
+        System.out.println("-----------Ordenado Alfabeticamente-----------------");
+        bill1.ordenarArrayAlfabeticamente(bill1.addProductsArray());
+
+
+
+
+
+
 
 
 
