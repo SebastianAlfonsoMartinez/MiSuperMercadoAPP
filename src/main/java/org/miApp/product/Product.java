@@ -1,18 +1,25 @@
 package org.miApp.product;
 
 import com.sun.source.tree.IfTree;
+import org.miApp.stock.Stock;
+import org.miApp.store.Store;
 
-import java.util.Arrays;
+import java.util.Scanner;
 
-public class Product implements Comparable{
+
+public class Product implements Comparable<Product>{
     //Atributos
+
+    private static int contadorId = 0;
+    private Integer id;
     private String productName;
     private String description;
     private String category;
     private String label;
-    private double price;
+    private Double price;
     private String urlPhoto;
-    private long stock;
+    private Boolean isSuspended;
+    private Stock stock;
 
 
     //Contructores
@@ -20,7 +27,8 @@ public class Product implements Comparable{
         System.out.println("se creo un producto vacio");
     }
 
-    public Product(String productName, String description, String category, String label, double price, String urlPhoto, long stock) {
+    public Product(String productName, String description, String category, String label, Double price, String urlPhoto, Stock stock) {
+        this.id = ++contadorId;
         this.productName = productName;
         this.description = description;
         this.category = category;
@@ -28,6 +36,7 @@ public class Product implements Comparable{
         this.price = price;
         this.urlPhoto = urlPhoto;
         this.stock = stock;
+        isSuspended = false;
     }
 
     //Metodos
@@ -39,6 +48,10 @@ public class Product implements Comparable{
     public String setProductName(String productName) {
         this.productName = productName;
         return this.productName;
+    }
+
+    public Integer getId() {
+        return id;
     }
 
     public String getDescription() {
@@ -86,25 +99,102 @@ public class Product implements Comparable{
         return this.urlPhoto;
     }
 
-    public long getStock() {
+    public Stock getStock() {
         return stock;
     }
 
-    public long setStock(long stock) {
+    public void setStock(Stock stock) {
         this.stock = stock;
-        return this.stock;
     }
 
+    public Boolean getSuspended() {
+        return isSuspended;
+    }
+
+    public void setSuspended(Boolean suspended) {
+        isSuspended = suspended;
+    }
     //Metodos con funcionalidades
 
+    public static void addProduct(Store store){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the product name");
+        String productName = scanner.nextLine();
+        System.out.println("Enter the product description");
+        String description = scanner.nextLine();
+        System.out.println("Enter the product category");
+        String category = scanner.nextLine();
+        System.out.println("Enter the product label");
+        String label = scanner.nextLine();
+        System.out.println("Enter the product url Photo");
+        String urlPhoto = scanner.nextLine();
+        System.out.println("Enter the product price");
+        Double price = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.println("Enter the product Stock");
+        Integer stock = scanner.nextInt();
+
+        Stock stock1 = new Stock(stock);
+        Product product = new Product(productName, description, category, label, price, urlPhoto, stock1);
+
+        store.addProduct(product);
+
+
+        System.out.println("|----------------------------------- Se agrego un producto -----------------------------------|\n"+product.toString());
+    }
+
+    public static void removeProduct(Store store){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the product id to remove");
+        Integer productId = scanner.nextInt();
+        store.delProduct(productId);
+
+        System.out.println("|----------------------------------- Se elimino un producto -----------------------------------|\n");
+    }
+
+    public static void updateProduct(Store store){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the product ID to update");
+        Integer productId = scanner.nextInt();
+        scanner.nextLine();
+        System.out.println("Enter the product name to update");
+        String productName = scanner.nextLine();
+        System.out.println("Enter the product description to update");
+        String description = scanner.nextLine();
+        System.out.println("Enter the product category to update");
+        String category = scanner.nextLine();
+        System.out.println("Enter the product label to update");
+        String label = scanner.nextLine();
+        System.out.println("Enter the product url Photo to update");
+        String urlPhoto = scanner.nextLine();
+        System.out.println("Enter the product price to update");
+        Double price = scanner.nextDouble();
+        scanner.nextLine();
+        System.out.println("Enter the product Stock to update");
+        Integer stock = scanner.nextInt();
+
+        Stock stock1 = new Stock(stock);
+        store.updateProduct(productId,productName,description,category,label,price,urlPhoto,stock1);
+        System.out.println("|----------------------------------- Se actualizo un producto -----------------------------------|");
+    }
+    public static void  suspendProduct(Store store){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the product ID to suspend");
+        Integer productId = scanner.nextInt();
+
+        store.suspendProduct(productId);
+        System.out.println("|----------------------------------- Se suspendio un producto -----------------------------------|");
+    }
+
+
     //Validacion si hay productos en inventario de los solicitados.
-    public String stockProduct(long amount) {
+/*    public String stockProduct(long amount) {
         if (amount >= stock) {
             return "Si hay productos disponibles en inventario. Total dew productos disponibles: " + stock;
         } else {
             return "No hay los productos suficientes. En inventario existentes:  " + stock;
         }
-    }
+    }*/
 
     //Determinar si el precio de un producto es mayor a un valor pasado por parametro.
     public void higherPriceValidation(double price) {
@@ -147,24 +237,25 @@ public class Product implements Comparable{
 
 
     //el método está sobreescribiendo un método de la clase padre. devuelve una cadena JSON que contiene los valores de los atributos de la clase.
+
+
     @Override
     public String toString() {
-        return "{'Nombre': " + productName + ", Descripcion: " + description + ", Categoria: \n" + category + ", Etiqueta: " + label + ", Precio: "
-                + price + ", Unidades en inventario: " + stock + ", Url de imagen: " + urlPhoto + "}";
+        return "Product:" +
+                "id=" + id +
+                "\n productName='" + productName + '\'' +
+                "\n description='" + description + '\'' +
+                "\n category='" + category + '\'' +
+                "\n label='" + label + '\'' +
+                "\n price=" + price +
+                "\n urlPhoto='" + urlPhoto + '\'' +
+                "\n isSuspended=" + isSuspended +
+                "\n stock=" + stock +
+                "\n |================================================\n";
     }
 
-
-
-
     @Override
-    public int compareTo(Object o) {
-        if (o instanceof  Product) {
-            Product uneProduct = (Product) o;
-            if (this.productName == ((Product) o).getProductName())
-                return 0;
-            else
-                return -1;
-        }
-        return 0;
+    public int compareTo(Product o) {
+        return productName.compareTo(o.productName);
     }
 }
