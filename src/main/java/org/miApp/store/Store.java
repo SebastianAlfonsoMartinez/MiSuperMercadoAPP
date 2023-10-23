@@ -12,8 +12,8 @@ import java.util.Optional;
 import java.util.Scanner;
 
 public class Store implements MethodsStoreI {
-    final List<Product> productList = new ArrayList<>();
-    final List<Bill> billList = new ArrayList<>();
+    private final List<Product> productList = new ArrayList<>();
+    private final List<Bill> billList = new ArrayList<>();
 
 
     public List<Product> getProductList() {
@@ -75,7 +75,7 @@ public class Store implements MethodsStoreI {
                         .equals(id)).findAny();
     }
 
-    public static void searchProduct(Store store) {
+    public void searchProduct(Store store) {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product name or ID to search");
         String productNameOrId = scanner.nextLine();
@@ -83,21 +83,11 @@ public class Store implements MethodsStoreI {
         store.findProductByIdOrName(productNameOrId);
         System.out.println("|----------------------------------- Busqueda del producto -----------------------------------|\n"+ store.findProductByIdOrName(productNameOrId));
     }
-    public static void viewInventory(Store store){
+    public void viewInventory(Store store){
         System.out.println("|----------------------------------- Verificando inventario de productos -----------------------------------\n|");
         System.out.println(store.getProductList().toString());
     }
-    public static void manageBill(Store store){
-        System.out.println("|----------------------------------- Control de Ventas -----------------------------------|\n"+store.getBillList());
-        Scanner scanner =new Scanner(System.in);
-        System.out.println("Ingrese el ID o el Nombre del producto a vender");
-        Integer productId = scanner.nextInt();
-        System.out.println("Ingrese la cantidad del producto a vender");
-        Integer quantityProducts = scanner.nextInt();
-        Bill bill = new Bill();
-        store.saleProduct(productId, quantityProducts, bill);
-        store.addBill(bill);
-    }
+
     public void searchProductByLetter(char letter) {
         boolean found = false;
         for (Product product : productList) {
@@ -114,14 +104,14 @@ public class Store implements MethodsStoreI {
         }
     }
 
-    public void saleProduct(Integer productId, Integer quantity, Bill bill){
-        Optional<Product> productOptional = productList.stream().
-                filter(product -> product.getId().equals(productId)).findFirst();
+    public void saleProduct(Optional<Product> productOptional, Integer quantity, Bill bill){
 
         if (productOptional.isPresent() && (productOptional.get().getStock().getStock() >= quantity) ){
             Product product = productOptional.get();
             product.getStock().setStock(product.getStock().getStock()-quantity);
-            bill.addProductToBill(product);
+            Product productBill = new Product(product.getId(),product.getProductName(), product.getDescription(),
+                    product.getPrice(), new Stock(quantity));
+            bill.addProductToBill(productBill);
             System.out.println("Producto agregado con exito");
         }else
             System.out.println("No hay suficientes unidades del producto, unidades en stock: " + productOptional.get().getStock().getStock());

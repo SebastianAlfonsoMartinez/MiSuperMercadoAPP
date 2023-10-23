@@ -12,7 +12,7 @@ public class Main {
         Product product = new Product();
         Bill bill = new Bill();
         int option = displayMenu();
-        while (option != 9) {
+        while (option != 10) {
 
             switch (option) {
                 case 1 -> product.addProduct(store);
@@ -21,9 +21,10 @@ public class Main {
                 case 4 -> product.suspendProduct(store);
                 case 5 -> store.searchProduct(store);
                 case 6 -> store.viewInventory(store);
-                case 7 -> store.manageBill(store);
+                case 7 -> bill.addProductToBill(store);
                 case 8 -> bill.viewBillInformation(store);
-                case 9 -> System.out.println("Saliendo...");
+                case 9 -> bill.searchBill(store);
+                case 10 -> System.out.println("Saliendo...");
                 default -> System.out.println("Opcion invalida. por favor intenta de nuevo");
             }
             option = displayMenu();
@@ -37,7 +38,7 @@ public class Main {
 
         System.out.println(
                 """
-                    |================================================.
+                        |================================================.
                               .-.   .-.     .--.                         |
                              | OO| | OO|   / _.-'  .-.   .-.  .-.   .''. |
                              |   | |   |   \\  '-.  '-'   '-'  '-'   '..' |
@@ -58,8 +59,9 @@ public class Main {
         System.out.println("5. Buscar producto                       |");
         System.out.println("6. Ver Inventario de productos           |");
         System.out.println("7. Vender Productos                      |");
-        System.out.println("8. Ver factura                           |");
-        System.out.println("9. Salir                                 |");
+        System.out.println("8. Ver facturas                          |");
+        System.out.println("9. Buscar facturas                       |");
+        System.out.println("10. Salir                                 |");
         System.out.println("±----------------------------------------±");
         System.out.print("   Ingresa tu opción:    (1 - 9)  ");
         Scanner scanner = new Scanner(System.in);

@@ -27,6 +27,14 @@ public class Product implements Comparable<Product>{
         System.out.println("se creo un producto vacio");
     }
 
+    public Product(Integer id, String productName, String description, Double price, Stock stock) {
+        this.id = id;
+        this.productName = productName;
+        this.description = description;
+        this.price = price;
+        this.stock = stock;
+    }
+
     public Product(String productName, String description, String category, String label, Double price, String urlPhoto, Stock stock) {
         this.id = ++contadorId;
         this.productName = productName;
@@ -116,7 +124,7 @@ public class Product implements Comparable<Product>{
     }
     //Metodos con funcionalidades
 
-    public static void addProduct(Store store){
+    public void addProduct(Store store){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product name");
         String productName = scanner.nextLine();
@@ -143,7 +151,7 @@ public class Product implements Comparable<Product>{
         System.out.println("|----------------------------------- Se agrego un producto -----------------------------------|\n"+product.toString());
     }
 
-    public static void removeProduct(Store store){
+    public void removeProduct(Store store){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product id to remove");
         Integer productId = scanner.nextInt();
@@ -152,7 +160,7 @@ public class Product implements Comparable<Product>{
         System.out.println("|----------------------------------- Se elimino un producto -----------------------------------|\n");
     }
 
-    public static void updateProduct(Store store){
+    public void updateProduct(Store store){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product ID to update");
         Integer productId = scanner.nextInt();
@@ -177,7 +185,7 @@ public class Product implements Comparable<Product>{
         store.updateProduct(productId,productName,description,category,label,price,urlPhoto,stock1);
         System.out.println("|----------------------------------- Se actualizo un producto -----------------------------------|");
     }
-    public static void  suspendProduct(Store store){
+    public void  suspendProduct(Store store){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product ID to suspend");
         Integer productId = scanner.nextInt();
