@@ -18,7 +18,7 @@ public class Bill {
     private final List<Product> listProduct = new ArrayList<>();
     private LocalDateTime dateAndHourSale;
     private Customer customer;
-    Integer amountProducts;
+    private Double totalPrice;
 
     //CONSTRUCTORES
     public Bill(){}
@@ -48,9 +48,13 @@ public class Bill {
         return dateAndHourSale;
     }
 
-
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
+    }
 
     //METODOS
+
+
 
     public void addProductToBill(Store store) {
 
@@ -67,7 +71,7 @@ public class Bill {
             System.out.println("Enter the product ID to buy");
             String productNameOrId = scanner.nextLine();
             System.out.println("Enter the amount the Products to buy");
-            Integer quantityProducts = scanner.nextInt();
+            Integer quantityProducts = Integer.parseInt(scanner.nextLine());
             Optional optional = store.findProductByIdOrName(productNameOrId);
 
             if (!optional.isEmpty()) {
@@ -76,11 +80,12 @@ public class Bill {
                 System.out.println("|----------------------------------- No se encontro el Producto -----------------------------------|\n");
             }
             System.out.println("Desea comprar mas productos (Si/No)");
-            scanner.nextLine();
             String requestToBuy = scanner.nextLine();
+            store.totalPriceToBill(bill1);
             addMoreProduct = requestToBuy.equalsIgnoreCase("si");
         }
-        store.addBill(bill1);
+        store.addBillToInventory(bill1);
+        System.out.println(bill1);
     }
 
     public void addProductToBill(Product product){
@@ -93,15 +98,6 @@ public class Bill {
         System.out.println(store.getBillList().toString());
     }
 
-    public void searchBill(Store store){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the Bill ID to search");
-        Integer productNameOrId = scanner.nextInt();
-
-        System.out.println(store.findBillById(productNameOrId));
-        System.out.println("|----------------------------------- Busqueda del producto -----------------------------------|\n");
-    }
-
 
 
     //Añadir un producto a la lista de productos
@@ -109,12 +105,12 @@ public class Bill {
 
     @Override
     public String toString() {
-        return "Bill{" +
+        return "Bill" +
                 "idBill=" + idBill +
                 ", listProduct=" + listProduct +
                 ", dateAndHourSale=" + dateAndHourSale +
                 ", customer=" + customer +
-                '}';
+                ", totalPrice=" + totalPrice;
     }
 }
 

@@ -1,13 +1,13 @@
 package org.miApp.product;
-
-import com.sun.source.tree.IfTree;
 import org.miApp.stock.Stock;
 import org.miApp.store.Store;
 
+import javax.sound.midi.Soundbank;
+import java.util.Optional;
 import java.util.Scanner;
+import java.util.logging.SocketHandler;
 
-
-public class Product implements Comparable<Product>{
+public class Product implements Comparable<Product>, MethodsProductI{
     //Atributos
 
     private static int contadorId = 0;
@@ -124,14 +124,29 @@ public class Product implements Comparable<Product>{
     }
     //Metodos con funcionalidades
 
+    public CategoryProduct selectCategory(){
+        System.out.println("Select a category by entering the corresponding number: ");
+        for (int i = 0; i < CategoryProduct.values().length; i++) {
+            System.out.println((i + 1) + ". " + CategoryProduct.values()[i].getValue());
+        }
+        Scanner scanner = new Scanner(System.in);
+        int choise = scanner.nextInt();
+
+        if (choise >= 1 && choise <= CategoryProduct.values().length)
+            return CategoryProduct.values()[choise - 1];
+        else {
+            System.out.println("Invalid choise. Please select a valid category.");
+            return selectCategory();
+        }
+    }
     public void addProduct(Store store){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product name");
         String productName = scanner.nextLine();
         System.out.println("Enter the product description");
         String description = scanner.nextLine();
-        System.out.println("Enter the product category");
-        String category = scanner.nextLine();
+
+        CategoryProduct category = selectCategory();
         System.out.println("Enter the product label");
         String label = scanner.nextLine();
         System.out.println("Enter the product url Photo");
@@ -143,55 +158,102 @@ public class Product implements Comparable<Product>{
         Integer stock = scanner.nextInt();
 
         Stock stock1 = new Stock(stock);
-        Product product = new Product(productName, description, category, label, price, urlPhoto, stock1);
+        Product product = new Product(productName, description, category.getValue(), label, price, urlPhoto, stock1);
 
-        store.addProduct(product);
+        store.addProductToInventory(product);
 
 
         System.out.println("|----------------------------------- Se agrego un producto -----------------------------------|\n"+product.toString());
     }
 
-    public void removeProduct(Store store){
-        Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter the product id to remove");
-        Integer productId = scanner.nextInt();
-        store.delProduct(productId);
 
-        System.out.println("|----------------------------------- Se elimino un producto -----------------------------------|\n");
-    }
+    public void updateProduct(Store store) {
 
-    public void updateProduct(Store store){
+        Boolean udateMoreProduct = true;
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product ID to update");
         Integer productId = scanner.nextInt();
         scanner.nextLine();
-        System.out.println("Enter the product name to update");
-        String productName = scanner.nextLine();
-        System.out.println("Enter the product description to update");
-        String description = scanner.nextLine();
-        System.out.println("Enter the product category to update");
-        String category = scanner.nextLine();
-        System.out.println("Enter the product label to update");
-        String label = scanner.nextLine();
-        System.out.println("Enter the product url Photo to update");
-        String urlPhoto = scanner.nextLine();
-        System.out.println("Enter the product price to update");
-        Double price = scanner.nextDouble();
-        scanner.nextLine();
-        System.out.println("Enter the product Stock to update");
-        Integer stock = scanner.nextInt();
 
-        Stock stock1 = new Stock(stock);
-        store.updateProduct(productId,productName,description,category,label,price,urlPhoto,stock1);
-        System.out.println("|----------------------------------- Se actualizo un producto -----------------------------------|");
+        while (udateMoreProduct) {
+            Optional<Product> productToUpdate = store.getProductList().stream()
+                    .filter(product -> product.getId() == productId)
+                    .findFirst();
+
+            if (productToUpdate.isPresent()) {
+                Product product = productToUpdate.get();
+                System.out.println("±----------------------------------------±");
+                System.out.println("|   Select the value to update:          |");
+                System.out.println("±----------------------------------------±");
+                System.out.println("1. Product Name");
+                System.out.println("2. Description");
+                System.out.println("3. Category");
+                System.out.println("4. Label");
+                System.out.println("5. Price");
+                System.out.println("6. URL Photo");
+                System.out.println("7. Stock");
+                System.out.println("Select the value to update (enter the corresponding number):");
+                int choice = scanner.nextInt();
+                scanner.nextLine();
+
+                switch (choice) {
+                    case 1:
+                        System.out.println("Enter the new product name");
+                        product.setProductName(scanner.nextLine());
+                        break;
+                    case 2:
+                        System.out.println("Enter the new description");
+                        product.setDescription(scanner.nextLine());
+                        break;
+                    case 3:
+                        System.out.println("Enter the new category");
+                        product.setCategory(product.selectCategory().name());
+                        break;
+                    case 4:
+                        System.out.println("Enter the new label");
+                        product.setLabel(scanner.nextLine());
+                    case 5:
+                        System.out.println("Enter the new price");
+                        product.setPrice(scanner.nextDouble());
+                        scanner.nextLine();
+                        break;
+                    case 6:
+                        System.out.println("Enter the new URL Photo");
+                        product.setUrlPhoto(scanner.nextLine());
+                        break;
+                    case 7:
+                        System.out.println("Enter the new stock");
+                        Integer stock = scanner.nextInt();
+                        product.setStock(new Stock(stock));
+                        break;
+                    default:
+                        System.out.println("Invalid choice");
+                        break;
+                }
+
+                System.out.println("|----------------------------------- Product Updated -----------------------------------|\n" + product);
+            } else {
+                System.out.println("Product not found with the given ID.");
+            }
+            System.out.println("Desea actualizar mas atributos (Si/No)");
+            String requestToBuy = scanner.nextLine();
+            udateMoreProduct = requestToBuy.equalsIgnoreCase("si");
+        }
     }
+
+
+
     public void  suspendProduct(Store store){
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product ID to suspend");
         Integer productId = scanner.nextInt();
+        Optional<Product> productToSuspend = store.getProductList().stream().
+                filter(product -> product.getId() == productId).findFirst();
+        productToSuspend.ifPresent(product -> product.setSuspended(true));
 
-        store.suspendProduct(productId);
+
         System.out.println("|----------------------------------- Se suspendio un producto -----------------------------------|");
+        System.out.println(productToSuspend.get());
     }
 
 
