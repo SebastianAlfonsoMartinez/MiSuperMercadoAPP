@@ -5,63 +5,59 @@ import org.miApp.product.Product;
 import org.miApp.stock.Stock;
 import org.miApp.store.interfaces.MethodsStoreI;
 
-import java.util.ArrayList;
-
-import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
+import java.util.*;
 
 public class Store implements MethodsStoreI {
-    private final List<Product> productList = new ArrayList<>();
-    private final List<Bill> billList = new ArrayList<>();
+    private final Set<Product> productList = new HashSet<>();
+    private final Set<Bill> billList = new HashSet<>();
+    private final List<Product> removedProducts = new ArrayList<>();
 
 
-    public List<Product> getProductList() {
+    public Set<Product> getProductList() {
         return productList;
     }
 
-    public List<Bill> getBillList() {
+    public Set<Bill> getBillList() {
         return billList;
     }
 
-    public void addProduct(Product product){
+
+
+
+    public void addProductToInventory(Product product){
         if (!productList.contains(product)){
             productList.add(product);
+
         }
     }
-    public void addBill(Bill bill){
+    public void addBillToInventory(Bill bill){
         if (!billList.contains(bill)){
             billList.add(bill);
         }
     }
-    public Optional<Product> delProduct(Integer productId){
-            Optional<Product> productToRemove = productList.stream().
-                    filter(product -> product.getId()==productId).findFirst();
-            productToRemove.ifPresent(productList::remove);
-            return productToRemove;
+    public void totalPriceToBill(Bill bill){
+        double totalPrice = 0.0;
+        for (Product product : bill.getListProduct()){
+            totalPrice += (product.getPrice() * product.getStock().getStock());
+        }
+        double tax = 0.19 * totalPrice;
+        double totalPriceWithTax = totalPrice + tax;
+        bill.setTotalPrice(totalPriceWithTax);
     }
 
-    public Optional<Product> updateProduct(Integer productId, String productName, String description, String category, String label, Double price, String urlPhoto, Stock stock){
-        Optional<Product> productToUpdate = productList.stream().
+    public void removeProductToInventory(Store store){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the product id to remove");
+        Integer productId = scanner.nextInt();
+
+        Optional<Product> productToRemove = store.getProductList().stream().
                 filter(product -> product.getId()==productId).findFirst();
-        productToUpdate.ifPresent(product -> {
-            product.setProductName(productName);
-            product.setDescription(description);
-            product.setCategory(category);
-            product.setLabel(label);
-            product.setPrice(price);
-            product.setUrlPhoto(urlPhoto);
-            product.setStock(stock);
-        });
-        return productToUpdate;
+        productToRemove.ifPresent(store.getProductList()::remove);
+
+        System.out.println("|----------------------------------- Se elimino un producto -----------------------------------|\n");
+        System.out.println(productToRemove);
     }
 
-    public Optional<Product> suspendProduct(Integer productId) {
-        Optional<Product> productToSuspend = productList.stream().
-                filter(product -> product.getId() == productId).findFirst();
-        productToSuspend.ifPresent(product -> product.setSuspended(true));
-        return productToSuspend;
-    }
 
     public Optional<Product> findProductByIdOrName(String idOrName) {
         return productList.stream()
@@ -79,9 +75,19 @@ public class Store implements MethodsStoreI {
         Scanner scanner = new Scanner(System.in);
         System.out.println("Enter the product name or ID to search");
         String productNameOrId = scanner.nextLine();
+        Optional<Product> optionalProduct = productList.stream()
+                .filter(product -> String.valueOf(product.getId()).equalsIgnoreCase(productNameOrId) || product.getProductName().equalsIgnoreCase(productNameOrId))
+                .findAny();
+        System.out.println("|----------------------------------- Busqueda del producto -----------------------------------|\n"
+        + optionalProduct.get());
+    }
+    public void searchBillToInventory(Store store){
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Enter the Bill ID to search");
+        Integer productNameOrId = scanner.nextInt();
 
-        store.findProductByIdOrName(productNameOrId);
-        System.out.println("|----------------------------------- Busqueda del producto -----------------------------------|\n"+ store.findProductByIdOrName(productNameOrId));
+        System.out.println(store.findBillById(productNameOrId));
+        System.out.println("|----------------------------------- Busqueda del producto -----------------------------------|\n");
     }
     public void viewInventory(Store store){
         System.out.println("|----------------------------------- Verificando inventario de productos -----------------------------------\n|");
@@ -112,6 +118,7 @@ public class Store implements MethodsStoreI {
             Product productBill = new Product(product.getId(),product.getProductName(), product.getDescription(),
                     product.getPrice(), new Stock(quantity));
             bill.addProductToBill(productBill);
+            totalPriceToBill(bill);
             System.out.println("Producto agregado con exito");
         }else
             System.out.println("No hay suficientes unidades del producto, unidades en stock: " + productOptional.get().getStock().getStock());
