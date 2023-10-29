@@ -1,0 +1,49 @@
+    //Validacion si hay productos en inventario de los solicitados.
+/*    public String stockProduct(long amount) {
+        if (amount >= stock) {
+            return "Si hay productos disponibles en inventario. Total dew productos disponibles: " + stock;
+        } else {
+            return "No hay los productos suficientes. En inventario existentes:  " + stock;
+        }
+    }*/
+
+    //Determinar si el precio de un producto es mayor a un valor pasado por parametro.
+/*    public void higherPriceValidation(double price) {
+        if (this.price > price) {
+            System.out.println("Precio del producto es mayor al valor pasado por parametro" + this.price);
+        } else {
+            System.out.println("El precio ingresado es mayor al valor del producto" + price);
+        }
+
+    }*/
+
+    //Determinar si el precio de un producto es menor o igual a un valor pasado por parametro.
+/*
+    public void validatioPriceLessThanEqual(double price) {
+        if (this.price <= price) {
+            System.out.println("El precio es de menor precio o igual al valor pasado por parametro");
+        }
+    }
+*/
+
+
+    //Determinar si el nombre del producto contiene una palabra pasada por parametro.
+/*    public void productContainsTextParameter(String productName) {
+        String palabra = this.productName.toLowerCase();
+        if (palabra.contains(productName.toLowerCase())) {
+            System.out.println("El producto contiene la palabra " + productName + " Producto:" + this.productName);
+        } else {
+            System.out.println("No se encontro producto con la palabra " + productName);
+        }
+    }*/
+
+    //Implementa una metodo para mostrar los productos que comienzan por una letra pasada por parámetro.
+
+/*    public void searchProductByLetter(String l) {
+        System.out.println("Se encontraron productos con la letra ingresada: " + l + "\n los cuales son: ");
+        for (String product : this.array) {
+            if (product.startsWith(l)) {
+                System.out.println(product + " ");
+            }
+        }
+    }*/
