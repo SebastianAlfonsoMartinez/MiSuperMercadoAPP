@@ -20,7 +20,7 @@ public enum Menus {
         | 1. Gestion de productos                        |
         | 2. Vender Productos                            |
         | 3. Gestion facturas                            |
-        | 0. Salir                                      |
+        | 0. Salir                                       |
         ±------------------------------------------------±
            Ingresa tu opción:    (0 - 3) """),
     Category_Menu("""
@@ -48,7 +48,8 @@ public enum Menus {
         | 4. suspender producto                          |
         | 5. Buscar producto                             |
         | 6. Buscar productos por letra                  |
-        | 6. Ver Inventario de productos                 |                             
+        | 7. Ver Inventario de productos                 |                             
+        | 8. Cargar Inventario                           |                             
         | 0. Back                                        |
         ±------------------------------------------------±
                 Select the value to update (1-7):

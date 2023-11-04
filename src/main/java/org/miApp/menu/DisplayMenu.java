@@ -1,13 +1,8 @@
 package org.miApp.menu;
 
-import org.miApp.bill.Bill;
 import org.miApp.bill.BillManage;
 import org.miApp.menu.enums.Menus;
-import org.miApp.product.Product;
 import org.miApp.product.ProductManage;
-import org.miApp.store.Store;
-
-import java.util.Scanner;
 
 public class DisplayMenu {
     public DisplayMenu() {

@@ -116,21 +116,22 @@ public class Product implements Comparable<Product>{
     public void setSuspended(Boolean suspended) {
         isSuspended = suspended;
     }
-    //Metodos con funcionalidades
+
+    private String shortenUrl(String url, int maxLength) {
+        if (url.length() <= maxLength) {
+            return url;
+        } else {
+            // Acorta la URL a la longitud deseada
+            return url.substring(0, maxLength);
+        }
+    }
 
     @Override
     public String toString() {
-        return "Product:" +
-                "id=" + id +
-                "\n productName='" + productName + '\'' +
-                "\n description='" + description + '\'' +
-                "\n category='" + category + '\'' +
-                "\n label='" + label + '\'' +
-                "\n price=" + price +
-                "\n urlPhoto='" + urlPhoto + '\'' +
-                "\n isSuspended=" + isSuspended +
-                "\n stock=" + stock +
-                "\n |================================================\n";
+        String shortenedUrl = shortenUrl(urlPhoto, 15);
+
+        return String.format("| %5s | %-70s | %-30s | %-30s | %-15s | %-10s | %20s | %5s |",
+                id, productName, description, category, label, price, shortenedUrl, isSuspended, stock, "\n");
     }
 
     @Override

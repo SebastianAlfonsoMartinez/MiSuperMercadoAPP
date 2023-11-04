@@ -1,16 +1,21 @@
 package org.miApp.product;
 
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVParser;
+import org.apache.commons.csv.CSVRecord;
 import org.miApp.bill.Bill;
 import org.miApp.bill.BillManage;
 import org.miApp.customer.Customer;
 import org.miApp.customer.CustomerManage;
-import org.miApp.menu.DisplayMenu;
 import org.miApp.menu.SuperKeyBoard;
 import org.miApp.menu.enums.Menus;
 import org.miApp.stock.Stock;
 
 
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 public class ProductManage {
 
@@ -101,13 +106,22 @@ public class ProductManage {
 
     public void searchProduct() {
         System.out.println("Enter the product name or ID to search");
-        String productNameOrId = SuperKeyBoard.readText();
-        Optional<Product> optionalProduct = productList.stream()
-                .filter(product -> String.valueOf(product.getId()).equalsIgnoreCase(productNameOrId) || product.getProductName().equalsIgnoreCase(productNameOrId))
-                .findAny();
-        System.out.println("|----------------------------------- Busqueda del producto -----------------------------------|\n"
-                + optionalProduct.get());
+        String productNameOrId = SuperKeyBoard.readText().toLowerCase();
+
+        List<Product> matchingProducts = productList.stream()
+                .filter(product -> String.valueOf(product.getId()).equalsIgnoreCase(productNameOrId) || product.getProductName().toLowerCase().contains(productNameOrId))
+                .collect(Collectors.toList());
+
+        if (matchingProducts.isEmpty()) {
+            System.out.println("No se encontraron productos que coincidan con la búsqueda.");
+        } else {
+            System.out.println("|----------------------------------- Resultados de la búsqueda -----------------------------------|");
+            for (Product product : matchingProducts) {
+                System.out.println(product);
+            }
+        }
     }
+
 
     public CategoryProduct selectCategory() {
         System.out.println("Select a category by entering the corresponding number: ");
@@ -147,7 +161,7 @@ public class ProductManage {
             Boolean updateMoreProduct = true;
 
             while (updateMoreProduct) {
-                validateOptionUpdateProduct(product);
+                updateMoreProduct = validateOptionUpdateProduct(product);
             }
         } else {
             System.out.println("Product not found with the given ID or name.");
@@ -220,6 +234,7 @@ public class ProductManage {
             case 5 -> searchProduct();
             case 6 -> searchProductByLetter();
             case 7 -> viewInventory();
+            case 8 -> loadInventory();
             case 0 -> {
                 System.out.println("Saliendo");
                 return false; // Salir del bucle
@@ -280,4 +295,50 @@ public class ProductManage {
             System.out.println("No hay suficientes unidades del producto, unidades en stock: " + productOptional.get().getStock().getStock());
     }
 
+    public void loadInventory (){
+        Random random = new Random();
+        try {
+            FileReader fileReader = new FileReader("C:/Users/SEBASTIAN/Downloads/Ejercicios_de_Ejemplo/MiSuperMercadoAPP/src/main/resources/inventory/inventory.csv");
+            CSVParser csvParser = CSVFormat.EXCEL.withHeader("Nombre", "Descripcion", "Categoria", "Etiquetas", "Precio", "URL FOTO").withDelimiter(';').parse(fileReader);
+
+            for (CSVRecord csvRecord : csvParser) {
+                String name = validateText(csvRecord.get("Nombre"));
+                String description = validateText(csvRecord.get("Descripcion"));
+                String category = validateText(csvRecord.get("Categoria"));
+                String tags = validateText(csvRecord.get("Etiquetas"));
+                Double price = validatePrice(csvRecord.get("Precio"));
+                String imgUrl = validateText(csvRecord.get("URL FOTO"));
+                Integer stock = random.nextInt(100);
+
+                Stock stock1 = new Stock(stock);
+
+                addProductToInventory(new Product(name, description, category, tags, price, imgUrl, stock1));
+                System.out.println(getProductList());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    private static String validateText(String text) {
+        return (text != null && !text.isEmpty()) ? text : "N/A";
+    }
+
+    private static Double validatePrice(String num) {
+        if (num != null && !num.isEmpty() && !num.equalsIgnoreCase("N/A")) {
+            try {
+                return Double.parseDouble(num);
+            } catch (NumberFormatException e) {
+                return 0.0D;
+            }
+        }
+        return 0.0D;
+    }
+
+    @Override
+    public String toString() {
+        return "ProductManage{" +
+                "productList=" + productList +
+                '}';
+    }
 }
+
