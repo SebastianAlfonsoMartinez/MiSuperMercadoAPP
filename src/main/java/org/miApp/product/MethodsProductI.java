@@ -2,7 +2,6 @@ package org.miApp.product;
 
 import org.miApp.store.Store;
 
-import java.util.Optional;
 
 public interface MethodsProductI {
     CategoryProduct selectCategory();

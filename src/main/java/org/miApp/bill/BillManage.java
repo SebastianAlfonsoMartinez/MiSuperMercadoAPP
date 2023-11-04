@@ -1,15 +1,10 @@
 package org.miApp.bill;
 
-import org.miApp.customer.Customer;
 import org.miApp.menu.SuperKeyBoard;
 import org.miApp.menu.enums.Menus;
 import org.miApp.product.Product;
-import org.miApp.product.ProductManage;
-import org.miApp.store.Store;
-
 import java.util.HashSet;
 import java.util.Optional;
-import java.util.Scanner;
 import java.util.Set;
 
 public class BillManage {

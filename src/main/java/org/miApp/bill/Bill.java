@@ -2,12 +2,9 @@ package org.miApp.bill;
 
 import org.miApp.customer.Customer;
 import org.miApp.product.Product;
-import org.miApp.store.Store;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.Scanner;
 
 public class Bill {
 
@@ -54,13 +51,7 @@ public class Bill {
         this.totalPrice = totalPrice;
     }
 
-    //METODOS
 
-
-
-
-
-    //Añadir un producto a la lista de productos
 
 
     @Override

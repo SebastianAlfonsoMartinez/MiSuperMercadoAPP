@@ -1,7 +1,5 @@
 package org.miApp.stock;
 
-import org.miApp.product.Product;
-
 public class Stock {
     private Integer stock;
 

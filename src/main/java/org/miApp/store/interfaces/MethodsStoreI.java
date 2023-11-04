@@ -1,7 +1,6 @@
 package org.miApp.store.interfaces;
 import org.miApp.bill.Bill;
 import org.miApp.product.Product;
-import org.miApp.stock.Stock;
 import org.miApp.store.Store;
 
 import java.util.Optional;
